@@ -1,5 +1,7 @@
 {
   "mongoURI": "mongodb+srv://omer:omer1234@devconnector-8tl1o.mongodb.net/test?retryWrites=true&w=majority",
   "jwtSecret": "mysecrettoken",
-  "tokenExpiration": 360000
+  "tokenExpiration": 360000,
+  "githubClientId": "b60abd816754cb12aeff",
+  "githubClientSecret": "075336aa5448d450afcd176d956754ed39498030"
 }
