@@ -127,13 +127,13 @@ router.get('/user/:user_id', async (req, res) => {
       user: req.params.user_id
     }).populate('user', ['name', 'avatar']);
     if (!profile) {
-      return res.status(400).json({ msg: 'Profile not found' });
+      return res.status(404).json({ msg: 'Profile not found' });
     }
     res.json(profile);
   } catch (error) {
     console.error(error.message);
-    if (error.kind == 'ObjectId') {
-      return res.status(400).json({ msg: 'Profile not found' });
+    if (error.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'Profile not found' });
     }
     res.status(500).send('Server Error');
   }
@@ -219,15 +219,11 @@ router.put(
 // @access  Private
 router.delete('/experience/:exp_id', auth, async (req, res) => {
   try {
-    // Remove experience
     const profile = await Profile.findOne({ user: req.user.id });
-    profile.experience = profile.experience.filter(exp => {
-      return exp._id != req.params.exp_id;
-    });
-    // const indexToRemove = profile.experience
-    //   .map(exp => exp._id)
-    //   .indexOf(req.params.exp_id);
-    // profile.experience.splice(indexToRemove, 1);
+    // Filter experience
+    profile.experience = profile.experience.filter(
+      exp => exp._id.toString() !== req.params.exp_id
+    );
     await profile.save();
     res.json(profile);
   } catch (error) {
@@ -301,13 +297,11 @@ router.put(
 // @access  Private
 router.delete('/education/:edu_id', auth, async (req, res) => {
   try {
-    // Remove education
     const profile = await Profile.findOne({ user: req.user.id });
-
-    profile.education = profile.education.filter(edu => {
-      return edu._id != req.params.edu_id;
-    });
-
+    // Filter education
+    profile.education = profile.education.filter(
+      edu => edu._id.toString() !== req.params.edu_id
+    );
     await profile.save();
     res.json(profile);
   } catch (error) {
