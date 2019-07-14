@@ -1,2 +1,3 @@
 node_modules/
 vsconfig.code-workspace
+.vscode/launch.json
