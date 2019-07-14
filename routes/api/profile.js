@@ -20,6 +20,7 @@ router.get('/me', auth, async (req, res) => {
     if (!profile) {
       return res.status(400).json({ msg: 'There is no profile for this user' });
     }
+    res.json(profile);
   } catch (error) {
     console.log(error.message);
     res.status(500).send('Server error');
@@ -39,8 +40,8 @@ router.post(
         .isEmpty(),
       check('skills', 'Skills are required')
         .not()
-        .isEmpty()
-    ]
+        .isEmpty(),
+    ],
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -54,13 +55,13 @@ router.post(
       location,
       bio,
       status,
-      githubUsername,
+      githubusername,
       skills,
       youtube,
       facebook,
       twitter,
       instagram,
-      linkedin
+      linkedin,
     } = req.body;
 
     const profileFields = {};
@@ -70,7 +71,7 @@ router.post(
     if (location) profileFields.location = location.trim();
     if (bio) profileFields.bio = bio.trim();
     if (status) profileFields.status = status.trim();
-    if (githubUsername) profileFields.githubUsername = githubUsername.trim();
+    if (githubusername) profileFields.githubusername = githubusername.trim();
     if (skills) {
       profileFields.skills = skills.split(',').map(skill => skill.trim());
     }
@@ -124,7 +125,7 @@ router.get('/', async (req, res) => {
 router.get('/user/:user_id', async (req, res) => {
   try {
     const profile = await Profile.findOne({
-      user: req.params.user_id
+      user: req.params.user_id,
     }).populate('user', ['name', 'avatar']);
     if (!profile) {
       return res.status(404).json({ msg: 'Profile not found' });
@@ -173,8 +174,8 @@ router.put(
         .isEmpty(),
       check('from', 'From date is required')
         .not()
-        .isEmpty()
-    ]
+        .isEmpty(),
+    ],
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -189,7 +190,7 @@ router.put(
       from,
       to,
       current,
-      description
+      description,
     } = req.body;
 
     const newExperience = {
@@ -199,7 +200,7 @@ router.put(
       from,
       to,
       current,
-      description
+      description,
     };
 
     try {
@@ -251,8 +252,8 @@ router.put(
         .isEmpty(),
       check('from', 'From date is required')
         .not()
-        .isEmpty()
-    ]
+        .isEmpty(),
+    ],
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -267,7 +268,7 @@ router.put(
       from,
       to,
       current,
-      description
+      description,
     } = req.body;
 
     const newEducation = {
@@ -277,7 +278,7 @@ router.put(
       from,
       to,
       current,
-      description
+      description,
     };
 
     try {
@@ -322,7 +323,7 @@ router.get('/github/:username', (req, res) => {
       &client_id=${config.get('githubClientId')}
       &client_secret=${config.get('githubClientSecret')}`,
       method: 'GET',
-      headers: { 'user-agent': 'node.js' }
+      headers: { 'user-agent': 'node.js' },
     };
 
     request(options, (error, response, body) => {
@@ -339,4 +340,5 @@ router.get('/github/:username', (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
 module.exports = router;
