@@ -16,8 +16,8 @@ router.post(
     [
       check('text', 'Text is  required')
         .not()
-        .isEmpty()
-    ]
+        .isEmpty(),
+    ],
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -30,7 +30,7 @@ router.post(
         text: req.body.text,
         name: user.name,
         avatar: user.avatar,
-        user: req.user.id
+        user: req.user.id,
       });
       const post = await newPost.save();
       res.json(post);
@@ -155,8 +155,8 @@ router.post(
     [
       check('text', 'Text is  required')
         .not()
-        .isEmpty()
-    ]
+        .isEmpty(),
+    ],
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -170,7 +170,7 @@ router.post(
         text: req.body.text,
         name: user.name,
         avatar: user.avatar,
-        user: req.user.id
+        user: req.user.id,
       };
       post.comments.unshift(newComment);
       await post.save();
@@ -182,7 +182,7 @@ router.post(
   }
 );
 
-// @route   DELETE api/post/comments/:id/:comment_id
+// @route   DELETE api/post/comment/:id/:comment_id
 // @desc    Delete comment from post
 // @access  Private
 router.delete('/comment/:id/:comment_id', auth, async (req, res) => {

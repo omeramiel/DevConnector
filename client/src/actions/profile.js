@@ -201,7 +201,7 @@ export const deleteAccount = () => async dispatch => {
 };
 
 const dispatchProfileError = (dispatch, error) => {
-  console.log(`profile error: ${error.response}`);
+  console.log(error.response);
   dispatch({
     type: PROFILE_ERROR,
     payload: {
